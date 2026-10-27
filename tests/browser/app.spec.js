@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 test("swipe buttons, undo, filter and persisted board", async ({ page }) => {
   await page.goto("/discover");
   await expect(
-    page.getByRole("heading", { name: "Find your kind of work." }),
+    page.getByRole("heading", { name: "Find a task." }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Interested in task" }).click();
   await expect(
@@ -13,23 +13,23 @@ test("swipe buttons, undo, filter and persisted board", async ({ page }) => {
     page.getByRole("heading", { name: "Refresh our quarterly presentation" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Interested in task" }).click();
-  await page.getByRole("button", { name: /My board/ }).click();
+  await page.getByRole("button", { name: /My swaps/ }).click();
   await expect(
     page.getByRole("heading", { name: "Refresh our quarterly presentation" }),
   ).toBeVisible();
   await page.reload();
-  await page.getByRole("button", { name: /My board/ }).click();
+  await page.getByRole("button", { name: /My swaps/ }).click();
   await expect(
     page.getByRole("heading", { name: "Refresh our quarterly presentation" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Build a trade" }).click();
+  await page.getByRole("button", { name: "Propose swap" }).click();
   await page
-    .getByLabel("What would you like help with in return?")
+    .getByLabel("What can this teammate help you with?")
     .fill("Check my spreadsheet formulas. Done when totals reconcile.");
-  await page.getByLabel("Proposed timing").fill("Thursday");
+  await page.getByLabel("When should both tasks be ready?").fill("Thursday");
   await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Save trade draft" }).click();
-  await expect(page.getByText("Local draft · not sent")).toBeVisible();
+  await page.getByRole("button", { name: "Save draft" }).click();
+  await expect(page.getByText("Draft proposal · not sent")).toBeVisible();
 });
 test("project context becomes reviewable task and persists", async ({
   page,
@@ -181,7 +181,7 @@ test("landing explains the product and lets users try an example", async ({
   await expect(page).toHaveURL("http://127.0.0.1:3000/");
   await page.goBack();
   await expect(
-    page.getByRole("heading", { name: "Find your kind of work." }),
+    page.getByRole("heading", { name: "Find a task." }),
   ).toBeVisible();
 });
 test("laptop controls fit screen and arrow keys work after clicking buttons", async ({
@@ -230,7 +230,7 @@ test("trackpad horizontal gestures make one decision per gesture and preserve ve
   await expect(
     page.getByRole("heading", { name: "Edit the product launch email" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: /My board/ }).click();
+  await page.getByRole("button", { name: /My swaps/ }).click();
   await expect(
     page.getByRole("heading", { name: "Refresh our quarterly presentation" }),
   ).toBeVisible();
@@ -284,7 +284,7 @@ test("reviewing passed tasks keeps saved tasks and search typing cannot swipe", 
   await expect(
     page.getByRole("heading", { name: "Summarize our customer survey" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: /My board/ }).click();
+  await page.getByRole("button", { name: /My swaps/ }).click();
   await expect(
     page.getByRole("heading", { name: "Refresh our quarterly presentation" }),
   ).toBeVisible();

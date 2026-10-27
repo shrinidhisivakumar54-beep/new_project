@@ -24,8 +24,8 @@ function Person({ leg }) {
     </span>
   );
 }
-export default function TeamBoard({ exchanges, onOpen, onDemoControls }) {
-  const [view, setView] = useState("exchanges"),
+export default function TeamBoard({ exchanges, onOpen, onBrowse }) {
+  const [view, setView] = useState("tasks"),
     [search, setSearch] = useState(""),
     [person, setPerson] = useState("Everyone"),
     [onlyMine, setOnlyMine] = useState(false);
@@ -42,34 +42,42 @@ export default function TeamBoard({ exchanges, onOpen, onDemoControls }) {
         .toLowerCase()
         .includes(search.toLowerCase()),
   );
-  const shownPeople = people.filter((name) =>
-    filtered.some((e) => e.legs.some((l) => l.name === name)),
+  const rows = filtered.flatMap((e) =>
+    e.legs
+      .filter(
+        (l) =>
+          (person === "Everyone" || l.name === person) &&
+          (!onlyMine || l.name === "Jamie Davis"),
+      )
+      .map((leg, index) => ({ exchange: e, leg, index })),
   );
+  function clear() {
+    setSearch("");
+    setPerson("Everyone");
+    setOnlyMine(false);
+  }
   return (
     <section className="team-board">
       <div className="page-heading">
         <div>
-          <div className="eyebrow">THE TEAM EXCHANGE BOARD</div>
+          <div className="eyebrow">STEP 3 · TRACK THE WORK</div>
           <h1>
-            Who’s helping whom<span>.</span>
+            Team board<span>.</span>
           </h1>
-          <p>
-            Both sides of every swap, with a clear owner and a shared finish
-            line.
-          </p>
+          <p>See who is doing each task, who it’s for, and where it stands.</p>
         </div>
-        <button className="secondary" onClick={onDemoControls}>
-          <RotateSymbol />
-          Demo controls
+        <button className="primary" onClick={onBrowse}>
+          Find a task
+          <ArrowRight size={16} />
         </button>
       </div>
       <div className="team-demo-notice">
         <ShieldCheck size={17} />
         <div>
-          <strong>Demo team · stored on this device</strong>
+          <strong>Demo workspace · sample teammates</strong>
           <span>
-            People and activity are examples. Status changes simulate a team
-            workflow; nothing is sent or assigned to real colleagues.
+            Changes stay on this device. No real assignments or notifications
+            are sent.
           </span>
         </div>
       </div>
@@ -82,38 +90,33 @@ export default function TeamBoard({ exchanges, onOpen, onDemoControls }) {
             </strong>
             <span>
               {status === "Proposed"
-                ? "Proposed exchanges"
+                ? "Swaps awaiting agreement"
                 : status === "In progress"
-                  ? "Exchanges in progress"
-                  : "Completed exchanges"}
+                  ? "Swaps in progress"
+                  : "Swaps completed"}
             </span>
           </div>
         ))}
-        <div>
-          <Users size={18} />
-          <strong>{shownPeople.length}</strong>
-          <span>People in this view</span>
-        </div>
       </div>
       <div className="team-toolbar">
-        <div className="team-view-toggle" aria-label="Board view">
+        <div className="team-view-toggle" aria-label="Team board view">
+          <button
+            aria-pressed={view === "tasks"}
+            onClick={() => setView("tasks")}
+          >
+            <Users size={15} />
+            Who’s doing what
+          </button>
           <button
             aria-pressed={view === "exchanges"}
             onClick={() => setView("exchanges")}
           >
             <Columns3 size={15} />
-            Exchanges
-          </button>
-          <button
-            aria-pressed={view === "people"}
-            onClick={() => setView("people")}
-          >
-            <Users size={15} />
-            People
+            Swap status
           </button>
         </div>
         <label className="team-person-filter">
-          <span>Person</span>
+          <span>Teammate</span>
           <select
             aria-label="Filter by teammate"
             value={person}
@@ -131,7 +134,7 @@ export default function TeamBoard({ exchanges, onOpen, onDemoControls }) {
             checked={onlyMine}
             onChange={(e) => setOnlyMine(e.target.checked)}
           />
-          My exchanges
+          My work only
         </label>
         <label className="team-search">
           <Search size={15} />
@@ -143,7 +146,58 @@ export default function TeamBoard({ exchanges, onOpen, onDemoControls }) {
           />
         </label>
       </div>
-      {view === "exchanges" ? (
+      {view === "tasks" ? (
+        <div className="assignment-table-wrap">
+          <table className="assignment-table">
+            <caption>
+              Who is doing what · {rows.length} task assignments
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Working on it</th>
+                <th scope="col">Task</th>
+                <th scope="col">Task owner</th>
+                <th scope="col">Status</th>
+                <th scope="col">
+                  <span className="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(({ exchange: e, leg, index }) => (
+                <tr key={`${e.id}-${index}`}>
+                  <td data-label="Working on it">
+                    <Person leg={leg} />
+                  </td>
+                  <td className="assignment-task" data-label="Task">
+                    <strong>{leg.task}</strong>
+                    <small>{e.timing}</small>
+                  </td>
+                  <td data-label="Task owner">{leg.for}</td>
+                  <td data-label="Status">
+                    <span className={"exchange-status " + stageClass(e.status)}>
+                      {e.status}
+                    </span>
+                    {leg.done && e.status !== "Done" && (
+                      <small className="assignment-ready">Delivery ready</small>
+                    )}
+                  </td>
+                  <td>
+                    <button
+                      className="assignment-open"
+                      onClick={() => onOpen(e.id)}
+                      aria-label={`View ${leg.name}'s task in ${e.id}`}
+                    >
+                      View swap
+                      <ArrowRight size={14} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
         <div className="kanban-board">
           {stages.map((status) => (
             <section
@@ -183,7 +237,7 @@ export default function TeamBoard({ exchanges, onOpen, onDemoControls }) {
                             <Person leg={leg} />
                             <p>{leg.task}</p>
                             <span>
-                              For {leg.for}
+                              Task owner: {leg.for}
                               {leg.done && (
                                 <span className="delivery-ready">
                                   <Check size={11} />
@@ -203,7 +257,7 @@ export default function TeamBoard({ exchanges, onOpen, onDemoControls }) {
                           onClick={() => onOpen(e.id)}
                           aria-label={`Open exchange ${e.id}`}
                         >
-                          Details
+                          View swap
                           <ArrowRight size={14} />
                         </button>
                       </div>
@@ -211,83 +265,24 @@ export default function TeamBoard({ exchanges, onOpen, onDemoControls }) {
                   ))}
                 {!filtered.some((e) => e.status === status) && (
                   <div className="column-empty">
-                    No {status.toLowerCase()} exchanges in this view.
+                    No {status.toLowerCase()} swaps in this view.
                   </div>
                 )}
               </div>
             </section>
           ))}
         </div>
-      ) : (
-        <div className="people-grid">
-          {shownPeople.map((name) => {
-            const entries = filtered.flatMap((e) =>
-              e.legs
-                .filter((l) => l.name === name)
-                .map((leg) => ({ exchange: e, leg })),
-            );
-            const identity = entries[0].leg;
-            return (
-              <article className="person-work-card" key={name}>
-                <Person leg={identity} />
-                <p className="person-work-count">
-                  {
-                    entries.filter((x) => x.exchange.status === "In progress")
-                      .length
-                  }{" "}
-                  active ·{" "}
-                  {
-                    entries.filter((x) => x.exchange.status === "Proposed")
-                      .length
-                  }{" "}
-                  proposed ·{" "}
-                  {entries.filter((x) => x.exchange.status === "Done").length}{" "}
-                  done
-                </p>
-                {entries.map(({ exchange: e, leg }) => (
-                  <button
-                    key={e.id}
-                    onClick={() => onOpen(e.id)}
-                    className="person-task"
-                  >
-                    <span className={"status-dot " + stageClass(e.status)} />
-                    <span>
-                      <strong>{leg.task}</strong>
-                      <small>
-                        Helping {leg.for} · {e.status}
-                      </small>
-                    </span>
-                    <ArrowRight size={14} />
-                  </button>
-                ))}
-              </article>
-            );
-          })}
-          {!shownPeople.length && (
-            <p className="column-empty">No people match these filters.</p>
-          )}
-        </div>
       )}
-      {!filtered.length && (
+      {((view === "tasks" && !rows.length) || !filtered.length) && (
         <div className="team-empty">
           <p>No exchanges match your filters.</p>
-          <button
-            className="secondary"
-            onClick={() => {
-              setSearch("");
-              setPerson("Everyone");
-              setOnlyMine(false);
-            }}
-          >
+          <button className="secondary" onClick={clear}>
             Clear filters
           </button>
         </div>
       )}
     </section>
   );
-}
-function RotateSymbol() {
-  return <ArrowLeftRight size={16} />;
 }
 export function ExchangeDetails({ exchange, onChange }) {
   const [confirmed, setConfirmed] = useState(false),

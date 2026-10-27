@@ -41,7 +41,7 @@ const examples = [
     color: "gold",
   },
 ];
-export default function Landing({ onEnter }) {
+export default function Landing({ onEnter, onTeam }) {
   const [index, setIndex] = useState(0),
     [feedback, setFeedback] = useState("");
   const example = examples[index % examples.length];
@@ -64,7 +64,9 @@ export default function Landing({ onEnter }) {
         </a>
         <nav aria-label="Main navigation">
           <a href="#how-it-works">How it works</a>
-          <a href="#good-swap">What makes a good swap?</a>
+          <button className="landing-team-link" onClick={onTeam}>
+            Team board
+          </button>
         </nav>
         <button className="landing-enter" onClick={onEnter}>
           Open workspace <ArrowUpRight size={17} />
@@ -88,11 +90,12 @@ export default function Landing({ onEnter }) {
             </p>
             <div className="hero-actions">
               <button className="hero-cta" onClick={onEnter}>
-                Find your next swap <ArrowRight size={19} />
+                Browse tasks <ArrowRight size={19} />
               </button>
-              <a href="#how-it-works">
-                See how it works <span>↓</span>
-              </a>
+              <button className="hero-team-link" onClick={onTeam}>
+                See who’s doing what
+                <ArrowUpRight size={15} />
+              </button>
             </div>
             <p className="hero-fine-print">
               Try the demo. No signup. Nothing gets assigned automatically.
@@ -146,7 +149,7 @@ export default function Landing({ onEnter }) {
                   onClick={() => preview(true)}
                   aria-label="Try saving a preview task"
                 >
-                  Interested
+                  Save task
                   <ArrowRight size={17} />
                 </button>
               </div>
@@ -187,8 +190,8 @@ export default function Landing({ onEnter }) {
               <span className="step-number">01</span>
               <h3>Find your kind of task.</h3>
               <p>
-                Browse small, clearly scoped requests. Click Interested to save
-                one, or Pass to see what’s next. Arrow keys work too.
+                Browse small requests. Save a task you’d enjoy, or pass to see
+                the next one. Saving is not an agreement to do the work.
               </p>
               <div className="step-visual keyboard-visual">
                 <kbd>←</kbd>
@@ -199,7 +202,7 @@ export default function Landing({ onEnter }) {
             </article>
             <article>
               <span className="step-number">02</span>
-              <h3>Put something on the table.</h3>
+              <h3>Propose a swap.</h3>
               <p>
                 Offer a task you’d like help with. Agree on the deliverable,
                 timing, and what a fair exchange looks like.
@@ -212,10 +215,10 @@ export default function Landing({ onEnter }) {
             </article>
             <article>
               <span className="step-number">03</span>
-              <h3>Make the handoff clear.</h3>
+              <h3>Track the exchange.</h3>
               <p>
-                Check scope and any approvals together. Keep ownership clear,
-                then get to work on something that suits you.
+                See both tasks on Team board. Confirm agreement, track each
+                delivery, and complete the exchange when both sides are ready.
               </p>
               <div className="step-visual done-visual">
                 <Check size={16} />
@@ -278,7 +281,7 @@ export default function Landing({ onEnter }) {
             would actually enjoy that task.
           </h2>
           <button className="hero-cta" onClick={onEnter}>
-            Find your next swap <ArrowRight size={19} />
+            Browse tasks <ArrowRight size={19} />
           </button>
           <p>
             Demo workspace · sample teammates · your changes stay on this device

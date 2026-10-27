@@ -47,6 +47,7 @@ test("sample exchange moves through agreement, delivery, and completion with per
   page,
 }) => {
   await page.goto("/team");
+  await page.getByRole("button", { name: "Swap status", exact: true }).click();
   await page.getByRole("button", { name: "Open exchange SW-101" }).click();
   await expect(
     page.getByRole("button", { name: "Start demo exchange" }),
@@ -70,6 +71,7 @@ test("sample exchange moves through agreement, delivery, and completion with per
     page.getByRole("region", { name: "Done exchanges" }).getByText("SW-101"),
   ).toBeVisible();
   await page.reload();
+  await page.getByRole("button", { name: "Swap status", exact: true }).click();
   await expect(
     page.getByRole("region", { name: "Done exchanges" }).getByText("SW-101"),
   ).toBeVisible();
@@ -79,15 +81,17 @@ test("saved task becomes a two-sided team exchange; adding the same draft twice 
 }) => {
   await page.goto("/discover");
   await page.getByRole("button", { name: "Interested in task" }).click();
-  await page.getByRole("button", { name: /My board/ }).click();
-  await page.getByRole("button", { name: "Build a trade" }).click();
+  await page.getByRole("button", { name: /My swaps/ }).click();
+  await page.getByRole("button", { name: "Propose swap" }).click();
   await page
-    .getByLabel("What would you like help with in return?")
+    .getByLabel("What can this teammate help you with?")
     .fill("Check the formulas in my report");
-  await page.getByLabel("Proposed timing").fill("Thursday afternoon");
+  await page
+    .getByLabel("When should both tasks be ready?")
+    .fill("Thursday afternoon");
   await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Save trade draft" }).click();
-  await page.getByRole("button", { name: "Add to team demo" }).click();
+  await page.getByRole("button", { name: "Save draft" }).click();
+  await page.getByRole("button", { name: "Create demo swap" }).click();
   await expect(
     page
       .getByRole("dialog")
@@ -101,35 +105,38 @@ test("saved task becomes a two-sided team exchange; adding the same draft twice 
   await expect(page.getByText("Helping Olivia Chen")).toBeVisible();
   await expect(page.getByText("Helping Jamie Davis")).toBeVisible();
   await page.getByRole("button", { name: "Close dialog" }).click();
-  expect(await page.locator(".exchange-card").count()).toBe(7);
-  await page.getByRole("button", { name: /My board/ }).click();
+  expect(await page.locator(".assignment-table tbody tr").count()).toBe(14);
+  await page.getByRole("button", { name: /My swaps/ }).click();
   await page.getByRole("button", { name: /Trade drafts/ }).click();
   await page.getByRole("button", { name: "View on team board" }).click();
   await page.getByRole("button", { name: "Close dialog" }).click();
-  expect(await page.locator(".exchange-card").count()).toBe(7);
+  expect(await page.locator(".assignment-table tbody tr").count()).toBe(14);
   await page
     .getByRole("button", { name: "Demo controls", exact: true })
     .first()
     .click();
   await page.getByRole("button", { name: "Restore sample exchanges" }).click();
-  expect(await page.locator(".exchange-card").count()).toBe(7);
-  await expect(page.getByText("Your demo exchange")).toBeVisible();
+  expect(await page.locator(".assignment-table tbody tr").count()).toBe(14);
+  await expect(page.locator(".assignment-table")).toContainText(
+    "Check the formulas in my report",
+  );
 });
-test("people view and teammate filters explain who is doing whose work", async ({
+test("task table and teammate filters make individual responsibilities explicit", async ({
   page,
 }) => {
   await page.goto("/team");
-  await page.getByLabel("Filter by teammate").selectOption("Jamie Davis");
-  expect(await page.locator(".exchange-card").count()).toBe(1);
-  await expect(page.locator(".exchange-card")).toContainText("Olivia Chen");
-  await page.getByRole("button", { name: "People", exact: true }).click();
-  await expect(page.locator(".person-work-card")).toHaveCount(2);
+  await expect(page.locator(".assignment-table tbody tr")).toHaveCount(12);
   await expect(
-    page
-      .locator(".person-work-card")
-      .filter({ hasText: "Jamie Davis" })
-      .first(),
-  ).toContainText("Helping");
+    page.getByRole("columnheader", { name: "Working on it" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("columnheader", { name: "Task owner" }),
+  ).toBeVisible();
+  await page.getByLabel("Filter by teammate").selectOption("Jamie Davis");
+  await expect(page.locator(".assignment-table tbody tr")).toHaveCount(1);
+  await expect(page.locator(".assignment-table tbody tr")).toContainText(
+    "Olivia Chen",
+  );
   await page
     .getByRole("textbox", { name: "Search exchanges" })
     .fill("nothing matches");
@@ -137,9 +144,9 @@ test("people view and teammate filters explain who is doing whose work", async (
     page.getByText("No exchanges match your filters."),
   ).toBeVisible();
   await page.getByRole("button", { name: "Clear filters" }).click();
-  await expect(page.locator(".person-work-card")).toHaveCount(9);
-  await page.getByLabel("My exchanges", { exact: true }).check();
-  await expect(page.locator(".person-work-card")).toHaveCount(2);
+  await expect(page.locator(".assignment-table tbody tr")).toHaveCount(12);
+  await page.getByLabel("My work only", { exact: true }).check();
+  await expect(page.locator(".assignment-table tbody tr")).toHaveCount(1);
 });
 test("team board refresh and browser history work and mobile has no horizontal overflow", async ({
   page,
@@ -149,13 +156,13 @@ test("team board refresh and browser history work and mobile has no horizontal o
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/team");
   await expect(
-    page.getByRole("heading", { name: "Who’s helping whom." }),
+    page.getByRole("heading", { name: "Team board." }),
   ).toBeVisible();
   await page.screenshot({ path: "/tmp/taskswap-team.png", fullPage: true });
-  await page.getByRole("button", { name: "Discover", exact: true }).click();
+  await page.getByRole("button", { name: "Find tasks", exact: true }).click();
   await page.goBack();
   await expect(
-    page.getByRole("heading", { name: "Who’s helping whom." }),
+    page.getByRole("heading", { name: "Team board." }),
   ).toBeVisible();
   await page.setViewportSize({ width: 390, height: 844 });
   expect(
@@ -167,7 +174,9 @@ test("team board refresh and browser history work and mobile has no horizontal o
     path: "/tmp/taskswap-team-mobile.png",
     fullPage: true,
   });
-  await page.getByRole("button", { name: "Open exchange SW-103" }).click();
+  await page
+    .getByRole("button", { name: "View Jamie Davis's task in SW-103" })
+    .click();
   await expect(page.getByRole("dialog")).toBeVisible();
   expect(
     await page.evaluate(

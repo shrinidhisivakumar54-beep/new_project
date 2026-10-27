@@ -1,7 +1,7 @@
 .presenter-button {
   border: 0;
   background: transparent;
-  color: #8b6b55;
+  color: #242c38;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -9,17 +9,17 @@
   padding: 6px 0;
 }
 .presenter-button:hover {
-  color: #67283c;
+  color: #242c38;
 }
 .team-demo-notice {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  background: #eee6d8;
-  border: 1px solid #e2d5c2;
+  background: #f5f7fa;
+  border: 1px solid #dce3ec;
   border-radius: 5px;
   padding: 13px 15px;
-  color: #9b7b5b;
+  color: #526174;
   margin: 0 0 20px;
 }
 .team-demo-notice svg {
@@ -29,20 +29,20 @@
   display: block;
   font-size: 11px;
   font-weight: 600;
-  color: #7e6046;
+  color: #242c38;
 }
 .team-demo-notice span {
   display: block;
   font-size: 11px;
   line-height: 1.8;
   margin-top: 3px;
-  color: #947b62;
+  color: #526174;
 }
 .team-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border: 1px solid #dfd2c0;
-  background: #fffcf6;
+  border: 1px solid #dce3ec;
+  background: #ffffff;
   border-radius: 6px;
   margin: 0 0 23px;
 }
@@ -51,7 +51,7 @@
   grid-template-columns: 17px 1fr;
   column-gap: 9px;
   padding: 19px 17px;
-  border-right: 1px solid #e6dbc9;
+  border-right: 1px solid #dce3ec;
   align-items: center;
 }
 .team-stats > div:last-child {
@@ -62,17 +62,17 @@
   line-height: 1.2;
   font-weight: 500;
   letter-spacing: -1px;
-  color: #633c40;
+  color: #242c38;
   font-variant-numeric: tabular-nums;
 }
 .team-stats > div > span:last-child {
   grid-column: 2;
   font-size: 10px;
-  color: #a18467;
+  color: #526174;
   margin-top: 5px;
 }
 .team-stats svg {
-  color: #a38360;
+  color: #526174;
 }
 .status-dot {
   display: inline-block;
@@ -80,16 +80,16 @@
   height: 7px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #a58c71;
+  background: #526174;
 }
 .status-dot.proposed {
-  background: #bc9458;
+  background: #526174;
 }
 .status-dot.in-progress {
-  background: #874b61;
+  background: #242c38;
 }
 .status-dot.done {
-  background: #7e9065;
+  background: #526174;
 }
 .team-toolbar {
   display: flex;
@@ -103,7 +103,7 @@
   align-items: center;
   gap: 3px;
   padding: 3px;
-  background: #eae1d4;
+  background: #f5f7fa;
   border-radius: 5px;
 }
 .team-view-toggle button {
@@ -113,14 +113,14 @@
   border: 0;
   border-radius: 3px;
   background: transparent;
-  color: #a18568;
+  color: #526174;
   font-size: 10px;
   padding: 8px 10px;
 }
 .team-view-toggle button[aria-pressed="true"] {
-  background: #fffaf1;
-  color: #7f4c51;
-  box-shadow: 0 1px 3px #64422b15;
+  background: #ffffff;
+  color: #242c38;
+  box-shadow: 0 1px 3px #242c3815;
 }
 .team-person-filter {
   display: flex;
@@ -128,16 +128,16 @@
   gap: 7px;
   font-size: 10px;
   font-weight: 400;
-  color: #a78a6c;
+  color: #526174;
 }
 .team-person-filter select {
   font-size: 11px !important;
-  border: 1px solid #dfd0ba;
+  border: 1px solid #dce3ec;
   background: transparent;
   border-radius: 4px;
   padding: 7px 24px 7px 9px;
   max-width: 170px;
-  color: #8a684d;
+  color: #242c38;
   outline-offset: 3px;
   margin: 0;
   display: inline-block;
@@ -149,29 +149,29 @@
   align-items: center;
   gap: 5px;
   font-weight: 400;
-  color: #96775b;
+  color: #526174;
 }
 .team-mine input,
 .delivery-checkbox input {
-  accent-color: #67283c;
+  accent-color: #242c38;
 }
 .team-search {
   display: flex;
   align-items: center;
   gap: 7px;
   margin-left: auto;
-  color: #ac8b67;
-  border: 1px solid #e2d1bc;
+  color: #526174;
+  border: 1px solid #dce3ec;
   border-radius: 4px;
   padding: 8px 10px;
-  background: #fffbf3;
+  background: #ffffff;
   max-width: 220px;
   min-width: 160px;
   flex: 1;
 }
 .team-search input {
   font-size: 10px !important;
-  color: #876448;
+  color: #242c38;
   border: 0 !important;
   outline: 0 !important;
   box-shadow: none !important;
@@ -182,7 +182,7 @@
   line-height: 1.4 !important;
 }
 .team-search input::placeholder {
-  color: #ad8c6a;
+  color: #526174;
 }
 .kanban-board {
   display: grid;
@@ -192,8 +192,8 @@
 }
 .kanban-column {
   min-width: 0;
-  background: #f1ebe1;
-  border: 1px solid #e6d9c7;
+  background: #f5f7fa;
+  border: 1px solid #dce3ec;
   border-radius: 6px;
   padding: 13px 12px;
 }
@@ -206,14 +206,14 @@
 .kanban-column-head h2 {
   font-size: 12px;
   font-weight: 500;
-  color: #816044;
+  color: #242c38;
   letter-spacing: -0.2px;
 }
 .kanban-column-head > span:last-child {
   font-size: 9px;
-  color: #ac8d6c;
+  color: #526174;
   margin-left: auto;
-  border: 1px solid #dac7ad;
+  border: 1px solid #dce3ec;
   border-radius: 3px;
   padding: 2px 5px;
 }
@@ -223,9 +223,9 @@
   gap: 13px;
 }
 .exchange-card {
-  border: 1px solid #e0cdb4;
+  border: 1px solid #dce3ec;
   border-radius: 5px;
-  background: #fffcf5;
+  background: #ffffff;
   overflow: hidden;
 }
 .exchange-card-meta {
@@ -234,13 +234,13 @@
   align-items: center;
   gap: 7px;
   font-size: 8px;
-  color: #a98c6d;
+  color: #526174;
   padding: 12px 13px 0;
 }
 .exchange-card-meta > span:first-child {
   font-size: 9px;
   letter-spacing: 0.5px;
-  color: #937256;
+  color: #526174;
 }
 .exchange-leg {
   padding: 14px 13px 13px;
@@ -261,13 +261,13 @@
 .exchange-person > strong {
   font-weight: 500;
   font-size: 11px;
-  color: #7c5641;
+  color: #242c38;
   min-width: 0;
   overflow-wrap: anywhere;
 }
 .exchange-person small {
   font-size: 8px;
-  color: #ad8a66;
+  color: #526174;
   font-weight: 400;
   margin-left: 5px;
 }
@@ -275,7 +275,7 @@
   font-size: 12px;
   line-height: 1.6;
   margin-top: 9px;
-  color: #745342;
+  color: #242c38;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -287,7 +287,7 @@
   flex-wrap: wrap;
   gap: 7px;
   font-size: 9px;
-  color: #ad8e6b;
+  color: #526174;
   margin-top: 6px;
   line-height: 1.6;
 }
@@ -295,7 +295,7 @@
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  color: #789062;
+  color: #526174;
   font-size: 8px;
 }
 .exchange-divider {
@@ -304,14 +304,14 @@
   gap: 7px;
   font-size: 7px;
   letter-spacing: 1px;
-  color: #b1926d;
-  border-top: 1px dashed #e4d4be;
+  color: #526174;
+  border-top: 1px dashed #dce3ec;
   margin: 0 13px;
   padding-top: 10px;
 }
 .exchange-card-foot {
-  background: #f8f0e4;
-  border-top: 1px solid #e8d8bf;
+  background: #f5f7fa;
+  border-top: 1px solid #dce3ec;
   padding: 11px 13px;
   display: flex;
   align-items: center;
@@ -323,7 +323,7 @@
   align-items: center;
   gap: 5px;
   font-size: 8px;
-  color: #ad8961;
+  color: #526174;
   max-width: 70%;
   line-height: 1.6;
 }
@@ -334,26 +334,26 @@
   border: 0;
   background: transparent;
   font-size: 9px;
-  color: #94604f;
+  color: #242c38;
   padding: 2px 0;
 }
 .exchange-card-foot > button:hover {
-  color: #67283c;
+  color: #242c38;
 }
 .column-empty {
-  border: 1px dashed #d9c7ae;
+  border: 1px dashed #dce3ec;
   border-radius: 4px;
   text-align: center;
   padding: 28px 16px;
   font-size: 11px;
   line-height: 1.8;
-  color: #b0906a;
+  color: #526174;
 }
 .team-empty {
   text-align: center;
   padding: 30px;
   font-size: 12px;
-  color: #a48564;
+  color: #526174;
   line-height: 1.8;
 }
 .team-empty button {
@@ -365,9 +365,9 @@
   gap: 18px;
 }
 .person-work-card {
-  border: 1px solid #dfcdb5;
+  border: 1px solid #dce3ec;
   border-radius: 5px;
-  background: #fffaf1;
+  background: #ffffff;
   padding: 20px;
   min-width: 0;
 }
@@ -381,10 +381,10 @@
 }
 .person-work-count {
   font-size: 10px;
-  color: #ad8b66;
+  color: #526174;
   margin-top: 10px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #e6d5bd;
+  border-bottom: 1px solid #dce3ec;
 }
 .person-task {
   display: flex;
@@ -392,7 +392,7 @@
   align-items: flex-start;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid #eee1cf;
+  border-bottom: 1px solid #f5f7fa;
   padding: 15px 0;
   width: 100%;
   text-align: left;
@@ -414,22 +414,22 @@
   font-size: 11px;
   line-height: 1.7;
   font-weight: 400;
-  color: #8b6248;
+  color: #242c38;
   overflow-wrap: anywhere;
 }
 .person-task small {
   display: block;
   font-size: 9px;
-  color: #b08d65;
+  color: #526174;
   line-height: 1.7;
   margin-top: 4px;
 }
 .person-task > svg {
-  color: #a27854;
+  color: #526174;
   margin-top: 3px;
 }
 .person-task:hover strong {
-  color: #67283c;
+  color: #242c38;
 }
 .exchange-detail-heading {
   display: flex;
@@ -440,29 +440,29 @@
 }
 .exchange-detail-heading > span:last-child {
   font-size: 9px;
-  color: #b08c62;
+  color: #526174;
 }
 .exchange-status {
   font-size: 10px;
   padding: 6px 10px;
   border-radius: 4px;
-  background: #eee0c8;
-  color: #a07b45;
+  background: #f5f7fa;
+  color: #526174;
 }
 .exchange-status.in-progress {
-  background: #ecdae1;
-  color: #8a4d62;
+  background: #dce3ec;
+  color: #242c38;
 }
 .exchange-status.done {
-  background: #e6eadc;
-  color: #7b8c5c;
+  background: #f5f7fa;
+  color: #526174;
 }
 .exchange-detail-leg {
-  border: 1px solid #e3ceb0;
+  border: 1px solid #dce3ec;
   border-radius: 5px;
   padding: 17px 19px;
   margin-top: 15px;
-  background: #fffaf1;
+  background: #ffffff;
 }
 .exchange-detail-leg .exchange-person .avatar {
   height: 31px;
@@ -472,14 +472,14 @@
 .detail-helping {
   display: block;
   font-size: 10px;
-  color: #b08a5d;
+  color: #526174;
   margin: 9px 0;
 }
 .exchange-detail-leg h3 {
   font-size: 15px;
   font-weight: 500;
   line-height: 1.5;
-  color: #81573e;
+  color: #242c38;
   overflow-wrap: anywhere;
 }
 .delivery-checkbox {
@@ -488,7 +488,7 @@
   gap: 7px;
   font-size: 11px;
   line-height: 1.8;
-  color: #a47a52;
+  color: #526174;
   margin-top: 16px;
 }
 .delivery-checkbox input {
@@ -499,7 +499,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #819063;
+  color: #526174;
   font-size: 10px;
   margin-top: 14px;
 }
@@ -513,21 +513,21 @@
 }
 .exchange-transition > p {
   font-size: 11px;
-  color: #ad895f;
+  color: #526174;
   line-height: 1.8;
 }
 .exchange-detail .local-notice {
   font-size: 10px;
 }
 .exchange-activity {
-  border-top: 1px solid #e7d5bd;
+  border-top: 1px solid #dce3ec;
   margin-top: 27px;
   padding-top: 20px;
 }
 .exchange-activity h3 {
   font-size: 12px;
   font-weight: 500;
-  color: #9c7550;
+  color: #526174;
 }
 .exchange-activity ol {
   list-style: none;
@@ -543,7 +543,7 @@
 .exchange-activity li > span {
   width: 5px;
   height: 5px;
-  background: #b29671;
+  background: #526174;
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 6px;
@@ -551,23 +551,23 @@
 .exchange-activity p {
   font-size: 11px;
   line-height: 1.8;
-  color: #a58057;
+  color: #526174;
 }
 .exchange-activity time {
   display: block;
   font-size: 9px;
   margin-top: 4px;
-  color: #b9a07e;
+  color: #718096;
 }
 .demo-control-panel > p {
   font-size: 12px;
   line-height: 1.8;
-  color: #987353;
+  color: #526174;
 }
 .demo-counts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 1px solid #e0c8a8;
+  border: 1px solid #dce3ec;
   border-radius: 5px;
   margin: 23px 0;
 }
@@ -575,8 +575,8 @@
   text-align: center;
   padding: 17px 10px;
   font-size: 10px;
-  color: #a37c52;
-  border-right: 1px solid #e0c8a8;
+  color: #526174;
+  border-right: 1px solid #dce3ec;
 }
 .demo-counts > span:last-child {
   border: 0;
@@ -586,7 +586,7 @@
   font-size: 27px;
   line-height: 1.3;
   font-weight: 500;
-  color: #7b4252;
+  color: #242c38;
   margin-bottom: 4px;
 }
 .demo-control-panel ol {
@@ -596,28 +596,28 @@
 .demo-control-panel li {
   font-size: 12px;
   line-height: 1.9;
-  color: #a47e54;
+  color: #526174;
   padding-left: 4px;
   margin-bottom: 12px;
 }
 .demo-control-panel li strong {
-  color: #8b6344;
+  color: #242c38;
   font-weight: 500;
 }
 .demo-reset-section {
-  border-top: 1px solid #e6d2b4;
+  border-top: 1px solid #dce3ec;
   padding-top: 20px;
   margin-top: 20px;
 }
 .demo-reset-section h3 {
   font-size: 13px;
   font-weight: 500;
-  color: #8c6140;
+  color: #242c38;
 }
 .demo-reset-section p {
   font-size: 11px;
   line-height: 1.9;
-  color: #ac875c;
+  color: #526174;
   margin: 9px 0 14px;
 }
 .team-board .page-heading > .secondary {
@@ -723,7 +723,7 @@
     border-right: 0;
   }
   .team-stats > div:nth-child(-n + 2) {
-    border-bottom: 1px solid #e6dbc9;
+    border-bottom: 1px solid #dce3ec;
   }
   .team-stats > div > span:last-child {
     font-size: 10px;

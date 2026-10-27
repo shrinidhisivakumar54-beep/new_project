@@ -46,6 +46,7 @@ import {
 } from "./exchanges";
 import "./team.css";
 import "./redesign.css";
+import "./professional.css";
 const blankBrief = {
   title: "",
   goal: "",
@@ -221,7 +222,7 @@ function App() {
     setOffset(0);
     notify(
       type === "liked"
-        ? "Interested — saved to My board."
+        ? "Task saved. Open My swaps to propose an exchange."
         : "Passed — next task. You can undo this.",
     );
   }
@@ -368,10 +369,16 @@ function App() {
           : "Both deliveries confirmed. Demo exchange completed.",
       );
   }
-  if (page === "home") return <Landing onEnter={() => navigate("discover")} />;
+  if (page === "home")
+    return (
+      <Landing
+        onEnter={() => navigate("discover")}
+        onTeam={() => navigate("team")}
+      />
+    );
   const nav = [
-    ["discover", LayoutGrid, "Discover"],
-    ["board", Layers, "My board"],
+    ["discover", LayoutGrid, "Find tasks"],
+    ["board", Layers, "My swaps"],
     ["team", Users, "Team board"],
     ["notes", FileText, "Project notes"],
   ];
@@ -397,7 +404,7 @@ function App() {
           <span className="workspace-icon">S</span>
           <div>
             <strong>Studio workspace</strong>
-            <small>Local demo · just you</small>
+            <small>Demo v1.3 · local workspace</small>
           </div>
           <ChevronDown size={15} />
         </div>
@@ -410,11 +417,24 @@ function App() {
           {nav.map(([id, Icon, label]) => (
             <button
               key={id}
+              aria-label={label}
+              aria-current={page === id ? "page" : undefined}
               className={"nav-item " + (page === id ? "active" : "")}
               onClick={() => navigate(id)}
             >
               <Icon size={19} />
-              <span>{label}</span>
+              <span className="nav-copy">
+                <span>{label}</span>
+                <small>
+                  {id === "discover"
+                    ? "1 · Browse and save"
+                    : id === "board"
+                      ? "2 · Propose an exchange"
+                      : id === "team"
+                        ? "3 · Who’s doing what"
+                        : "Optional · project context"}
+                </small>
+              </span>
               {id === "board" && saved.length > 0 && (
                 <b className="nav-count">{saved.length}</b>
               )}
@@ -457,9 +477,9 @@ function App() {
             <span className="slash">/</span>
             <strong>
               {page === "discover"
-                ? "Discover"
+                ? "Find tasks"
                 : page === "board"
-                  ? "My board"
+                  ? "My swaps"
                   : page === "team"
                     ? "Team board"
                     : "Project notes"}
@@ -474,7 +494,7 @@ function App() {
               Demo controls
             </button>
             <span className="demo-badge">
-              <span /> Demo workspace
+              <span /> Demo v1.3
             </span>
             <IconButton
               label="Workspace updates"
@@ -493,9 +513,12 @@ function App() {
                 <div>
                   <div className="eyebrow">THE EXCHANGE BOARD</div>
                   <h1>
-                    Find your kind of work<span>.</span>
+                    Find a task<span>.</span>
                   </h1>
-                  <p>Small tasks. Different strengths. A fair exchange.</p>
+                  <p>
+                    Save a task you’d enjoy. Then offer a fair exchange in My
+                    swaps.
+                  </p>
                 </div>
                 <button
                   className="primary"
@@ -617,7 +640,7 @@ function App() {
                               "swipe-stamp " + (offset > 0 ? "yes" : "no")
                             }
                           >
-                            {offset > 0 ? "INTERESTED" : "PASS"}
+                            {offset > 0 ? "SAVED" : "PASS"}
                           </span>
                         )}
                         <div className="laptop-card-header">
@@ -666,26 +689,55 @@ function App() {
                         <h2>
                           {search || filter !== "All tasks"
                             ? "No tasks match just yet."
-                            : "You’re all caught up."}
+                            : "You’ve reviewed every task."}
                         </h2>
                         <p>
                           {search || filter !== "All tasks"
                             ? "Try another search or category."
-                            : "Visit your saved tasks, post a request, or review the tasks you passed."}
+                            : saved.length
+                              ? `${saved.length} tasks are in your saved list. Choose one to propose a swap.`
+                              : "You can bring back passed tasks or replay the sample deck."}
                         </p>
-                        <button
-                          className="secondary"
-                          onClick={() => {
-                            if (search || filter !== "All tasks") {
+                        {search || filter !== "All tasks" ? (
+                          <button
+                            className="secondary"
+                            onClick={() => {
                               setSearch("");
                               setFilter("All tasks");
-                            } else resetPassed();
-                          }}
-                        >
-                          {search || filter !== "All tasks"
-                            ? "Clear filters"
-                            : "Review passed tasks"}
-                        </button>
+                            }}
+                          >
+                            Clear filters
+                          </button>
+                        ) : (
+                          <div className="empty-actions">
+                            {saved.length > 0 && (
+                              <button
+                                className="primary"
+                                onClick={() => {
+                                  setTab("Saved tasks");
+                                  navigate("board");
+                                }}
+                              >
+                                View saved tasks
+                                <ArrowRight size={15} />
+                              </button>
+                            )}
+                            {Object.values(decisions).includes("passed") && (
+                              <button
+                                className="secondary"
+                                onClick={resetPassed}
+                              >
+                                Review passed tasks
+                              </button>
+                            )}
+                            <button
+                              className="text-button"
+                              onClick={() => setModal({ type: "demo" })}
+                            >
+                              Replay demo tasks
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -718,11 +770,28 @@ function App() {
                       onClick={() => decide("liked")}
                       disabled={!task}
                     >
-                      <span>Interested</span>
+                      <span>Save task</span>
                       <kbd>→</kbd>
                       <ArrowRight size={19} />
                     </button>
                   </div>
+                  {saved.length > 0 && (
+                    <div className="saved-next-step">
+                      <span>
+                        <CheckCircle2 size={15} />
+                        {saved.length} saved · ready to propose a swap?
+                      </span>
+                      <button
+                        onClick={() => {
+                          setTab("Saved tasks");
+                          navigate("board");
+                        }}
+                      >
+                        Review saved tasks
+                        <ArrowRight size={14} />
+                      </button>
+                    </div>
+                  )}
                   <p className="desktop-control-hint">
                     Click a button or use <kbd>←</kbd> <kbd>→</kbd>. You can
                     also drag the card or swipe horizontally on your trackpad.
@@ -784,8 +853,8 @@ function App() {
                   </div>
                   <p className="context-disclaimer">
                     <ShieldCheck size={15} />
-                    Interested saves a task. It doesn’t assign work or send a
-                    request.
+                    Saving keeps a task in My swaps. It doesn’t assign work or
+                    send a request.
                   </p>
                 </aside>
               </div>
@@ -795,7 +864,7 @@ function App() {
             <TeamBoard
               exchanges={exchanges}
               onOpen={(id) => setModal({ type: "exchange", id })}
-              onDemoControls={() => setModal({ type: "demo" })}
+              onBrowse={() => navigate("discover")}
             />
           )}
           {page === "board" && (
@@ -804,11 +873,11 @@ function App() {
                 <div>
                   <div className="eyebrow">YOUR SAVED WORK</div>
                   <h1>
-                    Your board<span>.</span>
+                    My swaps<span>.</span>
                   </h1>
                   <p>
-                    Keep the tasks you like. Turn a possibility into a fair
-                    exchange.
+                    Choose a saved task, say what you need in return, and create
+                    a demo swap.
                   </p>
                 </div>
                 <button
@@ -851,18 +920,23 @@ function App() {
                   tab === "Trade drafts" ? (
                     <article className="board-card" key={t.id}>
                       <span className="category rose">
-                        Local draft · not sent
+                        Draft proposal · not sent
                       </span>
                       <h2>{t.title}</h2>
-                      <p>You offer: {t.offer}</p>
-                      <p>Proposed timing: {t.timing}</p>
+                      <p>
+                        <strong>You do:</strong> {t.title}
+                      </p>
+                      <p>
+                        <strong>You get help with:</strong> {t.offer}
+                      </p>
+                      <p>When should both tasks be ready?: {t.timing}</p>
                       <button
                         className="secondary"
                         onClick={() => addDraftToTeam(t)}
                       >
                         {exchanges.some((e) => e.draftId === t.id)
                           ? "View on team board"
-                          : "Add to team demo"}
+                          : "Create demo swap"}
                         <ArrowRight size={15} />
                       </button>
                       <div className="acceptance">
@@ -911,7 +985,7 @@ function App() {
                           })
                         }
                       >
-                        {tab === "My tasks" ? "View brief" : "Build a trade"}
+                        {tab === "My tasks" ? "View brief" : "Propose swap"}
                         <ArrowUpRight size={16} />
                       </button>
                       <button
@@ -1204,17 +1278,17 @@ function App() {
               </div>
               <ol>
                 <li>
-                  <strong>Discover:</strong> pass a task, save another, then
+                  <strong>Find tasks:</strong> pass a task, save another, then
                   undo.
                 </li>
                 <li>
-                  <strong>My board:</strong> open a saved task, build a trade,
+                  <strong>My swaps:</strong> open a saved task, build a trade,
                   and add the draft to the team demo.
                 </li>
                 <li>
                   <strong>Team board:</strong> start a proposed exchange,
-                  confirm both deliveries, and complete it. Switch to People to
-                  see who is helping whom.
+                  confirm both deliveries, and complete it. The task list shows
+                  who is doing what.
                 </li>
               </ol>
               <div className="demo-reset-section">
@@ -1323,22 +1397,23 @@ function App() {
           {modal.type === "trade" && (
             <TradeForm
               task={modal.task}
-              onSubmit={(trade) => {
-                setTrades((ts) => [
-                  {
-                    ...trade,
-                    id: crypto.randomUUID(),
-                    title: modal.task.title,
-                    taskId: modal.task.id,
-                    owner: modal.task.owner,
-                    initials: modal.task.initials,
-                    done: modal.task.done,
-                  },
-                  ...ts,
-                ]);
-                setModal(null);
-                setTab("Trade drafts");
-                notify("Trade draft saved locally. No message was sent.");
+              onSubmit={(trade, createNow) => {
+                const draft = {
+                  ...trade,
+                  id: crypto.randomUUID(),
+                  title: modal.task.title,
+                  taskId: modal.task.id,
+                  owner: modal.task.owner,
+                  initials: modal.task.initials,
+                  done: modal.task.done,
+                };
+                setTrades((ts) => [draft, ...ts]);
+                if (createNow) addDraftToTeam(draft);
+                else {
+                  setModal(null);
+                  setTab("Trade drafts");
+                  notify("Draft saved in My swaps. No message was sent.");
+                }
               }}
             />
           )}
@@ -1348,7 +1423,7 @@ function App() {
                 [
                   Search,
                   "Find your kind of task",
-                  "Click Interested or press → to save. Click Pass or press ← to skip. Dragging and horizontal trackpad swipes work too. Undo reverses the last decision.",
+                  "Click Save task or press → to save. Click Pass or press ← to skip. Dragging and horizontal trackpad swipes work too. Undo reverses the last decision.",
                 ],
                 [
                   ArrowLeftRight,
@@ -1563,7 +1638,10 @@ function TradeForm({ task, onSubmit }) {
       onSubmit={(e) => {
         e.preventDefault();
         if (offer.trim() && timing.trim() && consent)
-          onSubmit({ offer, timing });
+          onSubmit(
+            { offer, timing },
+            e.nativeEvent.submitter?.value === "create",
+          );
       }}
     >
       <div className="trade-preview">
@@ -1572,7 +1650,7 @@ function TradeForm({ task, onSubmit }) {
         <p>{task.deliverable}</p>
       </div>
       <label>
-        What would you like help with in return?
+        What can this teammate help you with?
         <textarea
           required
           maxLength={6000}
@@ -1582,7 +1660,7 @@ function TradeForm({ task, onSubmit }) {
         />
       </label>
       <label>
-        Proposed timing
+        When should both tasks be ready?
         <input
           required
           maxLength={180}
@@ -1604,14 +1682,30 @@ function TradeForm({ task, onSubmit }) {
         </span>
       </label>
       <div className="local-notice">
-        This saves a local draft.{" "}
-        {task.owner !== "You" ? "This teammate is fictional. " : ""}No request
-        will be sent.
+        Create a demo swap to put both tasks on Team board, or save a draft for
+        later. {task.owner !== "You" ? "This teammate is fictional. " : ""}No
+        request will be sent.
       </div>
-      <button className="primary">
-        <Bookmark size={16} />
-        Save trade draft
-      </button>
+      <div className="proposal-actions">
+        <button
+          className="secondary"
+          type="submit"
+          name="destination"
+          value="draft"
+        >
+          <Bookmark size={16} />
+          Save draft
+        </button>
+        <button
+          className="primary"
+          type="submit"
+          name="destination"
+          value="create"
+        >
+          Create demo swap
+          <ArrowRight size={16} />
+        </button>
+      </div>
     </form>
   );
 }
