@@ -19,11 +19,27 @@ The server listens on port 3000 (override with `PORT`). For production, run `npm
 - On laptops, click **Pass / Interested**, press **← / →**, drag a card at least 60 pixels, or swipe horizontally on the card with a trackpad. Buttons and keyboard controls do not require dragging. One trackpad gesture makes at most one decision. Undo reverses the last decision in the current session.
 - **Review passed tasks** brings back skipped tasks without clearing saved ones. Direct pages `/discover`, `/board`, and `/notes` survive refresh and support browser back/forward navigation.
 - Search tasks, filter categories, inspect deliverables, constraints, and acceptance criteria.
+- Explore **20 sample tasks** from **8 fictional teammates** across design, writing, data, and reviews.
 - Post a task; save tasks; create and remove trade drafts.
+- Add a draft to **Team board** to simulate a two-sided exchange. See both task owners, both contributors, timing, and status in Proposed / In progress / Done columns.
+- Switch to **People** for individual responsibilities. Filter by teammate, search, or show only exchanges involving the demo profile.
+- Start an exchange after confirming simulated agreement. Mark both deliveries ready before completing it; activity and status persist locally.
+- Open **Demo controls** to replay the sample deck or restore the six sample exchanges. Deck replay clears only decisions on sample task IDs, including saved samples. Sample-board restore replaces only sample exchanges. Your posted tasks, notes, drafts, and custom exchanges are retained.
 - Write an autosaved project brief and review suggested tasks before posting them.
 - Responsive layout, keyboard-accessible dialogs, reduced-motion support.
 
-This is a **single-user local prototype**, not a shared workplace service. Sample coworkers are fictional. Tasks, decisions, briefs, and trades persist in browser local storage; trade drafts are never sent. Storage is not encrypted or synchronized. Only use nonconfidential demonstration data. Clearing browser storage removes it.
+This is a **single-user local prototype**, not a shared workplace service. Sample coworkers are fictional. Tasks, decisions, briefs, and trades persist in browser local storage; trade drafts and simulated exchange updates are never sent. The team board is an illustrative local demo, not a connected team service. Storage is not encrypted or synchronized. Only use nonconfidential demonstration data. Clearing browser storage removes it.
+
+## Suggested presentation (3–5 minutes)
+
+1. Open the home page and explain the example exchange.
+2. Open the workspace. Pass a task, save another, and undo a swipe. The deck includes 20 sample tasks.
+3. In **My board → Saved tasks**, build a trade, save its draft, and click **Add to team demo**.
+4. Confirm simulated agreement and start the exchange. Show both sides on **Team board**.
+5. Mark both deliveries ready, then complete the exchange. Switch to **People** to show individual responsibilities.
+6. Use **Demo controls** to replay the examples for another audience. Resets are limited to the sample content described in the dialog.
+
+Direct routes: `/discover`, `/board`, `/team`, `/notes`. Every person except the local demo profile is fictional. Do not describe simulated confirmations as real teammate approval.
 
 ## Project notes and optional AI
 
@@ -41,6 +57,6 @@ npm run build
 npm run test:e2e
 ```
 
-The browser suite uses `/usr/bin/chromium` when available and starts its own development server when necessary. On your Mac or another computer, run `npx playwright install chromium` once before the browser suite. You can override the browser path with `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. Tests cover swipe/undo persistence, project-brief-to-post workflow, trade drafts, real pointer dragging, keyboard controls after button focus, horizontal wheel/trackpad events, short-drag cancellation, filter resets, API validation, landing navigation, laptop button visibility, mobile overflow, and modal dismissal. Trackpad behavior is validated with Chromium wheel events; physical Mac trackpads and Safari have not been tested here.
+The browser suite uses `/usr/bin/chromium` when available and starts its own development server when necessary. On your Mac or another computer, run `npx playwright install chromium` once before the browser suite. You can override the browser path with `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. Tests cover swipe/undo persistence, project-brief-to-post workflow, trade drafts, real pointer dragging, keyboard controls after button focus, horizontal wheel/trackpad events, short-drag cancellation, filter resets, API validation, landing navigation, laptop button visibility, mobile overflow, modal dismissal, exchange state transitions, two-sided draft conversion, team filters, and preservation of user work during sample resets. Trackpad behavior is validated with Chromium wheel events; physical Mac trackpads and Safari have not been tested here.
 
 Each cloud task already has an isolated checkout. Use the existing repository; don't create a Git worktree unless explicitly requested.

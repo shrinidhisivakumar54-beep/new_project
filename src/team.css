@@ -1,0 +1,896 @@
+.presenter-button {
+  border: 0;
+  background: transparent;
+  color: #8b6b55;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  padding: 6px 0;
+}
+.presenter-button:hover {
+  color: #67283c;
+}
+.team-demo-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #eee6d8;
+  border: 1px solid #e2d5c2;
+  border-radius: 5px;
+  padding: 13px 15px;
+  color: #9b7b5b;
+  margin: 0 0 20px;
+}
+.team-demo-notice svg {
+  margin-top: 2px;
+}
+.team-demo-notice strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7e6046;
+}
+.team-demo-notice span {
+  display: block;
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 3px;
+  color: #947b62;
+}
+.team-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid #dfd2c0;
+  background: #fffcf6;
+  border-radius: 6px;
+  margin: 0 0 23px;
+}
+.team-stats > div {
+  display: grid;
+  grid-template-columns: 17px 1fr;
+  column-gap: 9px;
+  padding: 19px 17px;
+  border-right: 1px solid #e6dbc9;
+  align-items: center;
+}
+.team-stats > div:last-child {
+  border-right: 0;
+}
+.team-stats strong {
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -1px;
+  color: #633c40;
+  font-variant-numeric: tabular-nums;
+}
+.team-stats > div > span:last-child {
+  grid-column: 2;
+  font-size: 10px;
+  color: #a18467;
+  margin-top: 5px;
+}
+.team-stats svg {
+  color: #a38360;
+}
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #a58c71;
+}
+.status-dot.proposed {
+  background: #bc9458;
+}
+.status-dot.in-progress {
+  background: #874b61;
+}
+.status-dot.done {
+  background: #7e9065;
+}
+.team-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 21px;
+}
+.team-view-toggle {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  background: #eae1d4;
+  border-radius: 5px;
+}
+.team-view-toggle button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #a18568;
+  font-size: 10px;
+  padding: 8px 10px;
+}
+.team-view-toggle button[aria-pressed="true"] {
+  background: #fffaf1;
+  color: #7f4c51;
+  box-shadow: 0 1px 3px #64422b15;
+}
+.team-person-filter {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 400;
+  color: #a78a6c;
+}
+.team-person-filter select {
+  font-size: 11px !important;
+  border: 1px solid #dfd0ba;
+  background: transparent;
+  border-radius: 4px;
+  padding: 7px 24px 7px 9px;
+  max-width: 170px;
+  color: #8a684d;
+  outline-offset: 3px;
+  margin: 0;
+  display: inline-block;
+  width: auto;
+}
+.team-mine {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 400;
+  color: #96775b;
+}
+.team-mine input,
+.delivery-checkbox input {
+  accent-color: #67283c;
+}
+.team-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+  color: #ac8b67;
+  border: 1px solid #e2d1bc;
+  border-radius: 4px;
+  padding: 8px 10px;
+  background: #fffbf3;
+  max-width: 220px;
+  min-width: 160px;
+  flex: 1;
+}
+.team-search input {
+  font-size: 10px !important;
+  color: #876448;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-width: 0;
+  line-height: 1.4 !important;
+}
+.team-search input::placeholder {
+  color: #ad8c6a;
+}
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.kanban-column {
+  min-width: 0;
+  background: #f1ebe1;
+  border: 1px solid #e6d9c7;
+  border-radius: 6px;
+  padding: 13px 12px;
+}
+.kanban-column-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 1px 3px 14px;
+}
+.kanban-column-head h2 {
+  font-size: 12px;
+  font-weight: 500;
+  color: #816044;
+  letter-spacing: -0.2px;
+}
+.kanban-column-head > span:last-child {
+  font-size: 9px;
+  color: #ac8d6c;
+  margin-left: auto;
+  border: 1px solid #dac7ad;
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+.kanban-items {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.exchange-card {
+  border: 1px solid #e0cdb4;
+  border-radius: 5px;
+  background: #fffcf5;
+  overflow: hidden;
+}
+.exchange-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 7px;
+  font-size: 8px;
+  color: #a98c6d;
+  padding: 12px 13px 0;
+}
+.exchange-card-meta > span:first-child {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: #937256;
+}
+.exchange-leg {
+  padding: 14px 13px 13px;
+  min-width: 0;
+}
+.exchange-person {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+.exchange-person .avatar {
+  height: 27px;
+  width: 27px;
+  font-size: 8px;
+  border: 0;
+}
+.exchange-person > strong {
+  font-weight: 500;
+  font-size: 11px;
+  color: #7c5641;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.exchange-person small {
+  font-size: 8px;
+  color: #ad8a66;
+  font-weight: 400;
+  margin-left: 5px;
+}
+.exchange-leg p {
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 9px;
+  color: #745342;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.exchange-leg > span:last-child {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 9px;
+  color: #ad8e6b;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.delivery-ready {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #789062;
+  font-size: 8px;
+}
+.exchange-divider {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #b1926d;
+  border-top: 1px dashed #e4d4be;
+  margin: 0 13px;
+  padding-top: 10px;
+}
+.exchange-card-foot {
+  background: #f8f0e4;
+  border-top: 1px solid #e8d8bf;
+  padding: 11px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.exchange-card-foot > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  color: #ad8961;
+  max-width: 70%;
+  line-height: 1.6;
+}
+.exchange-card-foot > button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: transparent;
+  font-size: 9px;
+  color: #94604f;
+  padding: 2px 0;
+}
+.exchange-card-foot > button:hover {
+  color: #67283c;
+}
+.column-empty {
+  border: 1px dashed #d9c7ae;
+  border-radius: 4px;
+  text-align: center;
+  padding: 28px 16px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #b0906a;
+}
+.team-empty {
+  text-align: center;
+  padding: 30px;
+  font-size: 12px;
+  color: #a48564;
+  line-height: 1.8;
+}
+.team-empty button {
+  margin-top: 15px;
+}
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.person-work-card {
+  border: 1px solid #dfcdb5;
+  border-radius: 5px;
+  background: #fffaf1;
+  padding: 20px;
+  min-width: 0;
+}
+.person-work-card > .exchange-person .avatar {
+  width: 35px;
+  height: 35px;
+  font-size: 10px;
+}
+.person-work-card > .exchange-person strong {
+  font-size: 13px;
+}
+.person-work-count {
+  font-size: 10px;
+  color: #ad8b66;
+  margin-top: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e6d5bd;
+}
+.person-task {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #eee1cf;
+  padding: 15px 0;
+  width: 100%;
+  text-align: left;
+  min-width: 0;
+}
+.person-task:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.person-task > .status-dot {
+  margin-top: 5px;
+}
+.person-task > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.person-task strong {
+  display: block;
+  font-size: 11px;
+  line-height: 1.7;
+  font-weight: 400;
+  color: #8b6248;
+  overflow-wrap: anywhere;
+}
+.person-task small {
+  display: block;
+  font-size: 9px;
+  color: #b08d65;
+  line-height: 1.7;
+  margin-top: 4px;
+}
+.person-task > svg {
+  color: #a27854;
+  margin-top: 3px;
+}
+.person-task:hover strong {
+  color: #67283c;
+}
+.exchange-detail-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.exchange-detail-heading > span:last-child {
+  font-size: 9px;
+  color: #b08c62;
+}
+.exchange-status {
+  font-size: 10px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: #eee0c8;
+  color: #a07b45;
+}
+.exchange-status.in-progress {
+  background: #ecdae1;
+  color: #8a4d62;
+}
+.exchange-status.done {
+  background: #e6eadc;
+  color: #7b8c5c;
+}
+.exchange-detail-leg {
+  border: 1px solid #e3ceb0;
+  border-radius: 5px;
+  padding: 17px 19px;
+  margin-top: 15px;
+  background: #fffaf1;
+}
+.exchange-detail-leg .exchange-person .avatar {
+  height: 31px;
+  width: 31px;
+  font-size: 10px;
+}
+.detail-helping {
+  display: block;
+  font-size: 10px;
+  color: #b08a5d;
+  margin: 9px 0;
+}
+.exchange-detail-leg h3 {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #81573e;
+  overflow-wrap: anywhere;
+}
+.delivery-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #a47a52;
+  margin-top: 16px;
+}
+.delivery-checkbox input {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.completed-delivery {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #819063;
+  font-size: 10px;
+  margin-top: 14px;
+}
+.exchange-transition {
+  margin-top: 23px;
+}
+.exchange-transition > .primary {
+  margin-top: 15px;
+  width: 100%;
+  font-size: 12px;
+}
+.exchange-transition > p {
+  font-size: 11px;
+  color: #ad895f;
+  line-height: 1.8;
+}
+.exchange-detail .local-notice {
+  font-size: 10px;
+}
+.exchange-activity {
+  border-top: 1px solid #e7d5bd;
+  margin-top: 27px;
+  padding-top: 20px;
+}
+.exchange-activity h3 {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9c7550;
+}
+.exchange-activity ol {
+  list-style: none;
+  margin: 17px 0 0;
+  padding: 0;
+}
+.exchange-activity li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 15px;
+}
+.exchange-activity li > span {
+  width: 5px;
+  height: 5px;
+  background: #b29671;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.exchange-activity p {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #a58057;
+}
+.exchange-activity time {
+  display: block;
+  font-size: 9px;
+  margin-top: 4px;
+  color: #b9a07e;
+}
+.demo-control-panel > p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #987353;
+}
+.demo-counts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #e0c8a8;
+  border-radius: 5px;
+  margin: 23px 0;
+}
+.demo-counts > span {
+  text-align: center;
+  padding: 17px 10px;
+  font-size: 10px;
+  color: #a37c52;
+  border-right: 1px solid #e0c8a8;
+}
+.demo-counts > span:last-child {
+  border: 0;
+}
+.demo-counts strong {
+  display: block;
+  font-size: 27px;
+  line-height: 1.3;
+  font-weight: 500;
+  color: #7b4252;
+  margin-bottom: 4px;
+}
+.demo-control-panel ol {
+  padding-left: 20px;
+  margin: 20px 0;
+}
+.demo-control-panel li {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #a47e54;
+  padding-left: 4px;
+  margin-bottom: 12px;
+}
+.demo-control-panel li strong {
+  color: #8b6344;
+  font-weight: 500;
+}
+.demo-reset-section {
+  border-top: 1px solid #e6d2b4;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+.demo-reset-section h3 {
+  font-size: 13px;
+  font-weight: 500;
+  color: #8c6140;
+}
+.demo-reset-section p {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #ac875c;
+  margin: 9px 0 14px;
+}
+.team-board .page-heading > .secondary {
+  white-space: nowrap;
+}
+@media (min-width: 1500px) {
+  .people-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .exchange-leg {
+    padding: 17px;
+  }
+  .exchange-card-meta {
+    padding: 15px 17px 0;
+  }
+  .exchange-leg p {
+    font-size: 13px;
+  }
+  .exchange-person > strong {
+    font-size: 12px;
+  }
+}
+@media (max-width: 1150px) {
+  .team-toolbar {
+    gap: 12px;
+  }
+  .team-search {
+    margin-left: 0;
+    max-width: none;
+  }
+  .kanban-board {
+    gap: 12px;
+  }
+  .kanban-column {
+    padding: 11px 8px;
+  }
+  .exchange-card-meta {
+    font-size: 7px;
+    padding: 10px 10px 0;
+  }
+  .exchange-leg {
+    padding: 12px 10px;
+  }
+  .exchange-person > strong {
+    font-size: 10px;
+  }
+  .exchange-leg p {
+    font-size: 11px;
+  }
+  .exchange-person .avatar {
+    height: 24px;
+    width: 24px;
+    font-size: 7px;
+  }
+  .exchange-person small {
+    font-size: 7px;
+  }
+  .exchange-card-foot {
+    padding: 10px;
+  }
+  .exchange-card-foot > span {
+    font-size: 7px;
+  }
+  .team-stats > div {
+    padding: 16px 12px;
+    column-gap: 6px;
+  }
+  .team-stats > div > span:last-child {
+    font-size: 9px;
+  }
+  .team-stats strong {
+    font-size: 24px;
+  }
+}
+@media (max-width: 900px) {
+  .kanban-board {
+    grid-template-columns: 1fr;
+  }
+  .kanban-items {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .kanban-column {
+    padding: 15px;
+  }
+  .kanban-column-head {
+    padding-bottom: 15px;
+  }
+  .kanban-column-head h2 {
+    font-size: 13px;
+  }
+  .exchange-leg p {
+    font-size: 12px;
+  }
+  .exchange-person > strong {
+    font-size: 11px;
+  }
+  .team-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .team-stats > div:nth-child(2) {
+    border-right: 0;
+  }
+  .team-stats > div:nth-child(-n + 2) {
+    border-bottom: 1px solid #e6dbc9;
+  }
+  .team-stats > div > span:last-child {
+    font-size: 10px;
+  }
+  .team-person-filter select {
+    max-width: 180px;
+  }
+  .team-search {
+    flex: auto;
+  }
+  .team-mine {
+    font-size: 11px;
+  }
+  .people-grid {
+    grid-template-columns: 1fr;
+  }
+  .presenter-button {
+    font-size: 9px;
+  }
+  .top-actions > .demo-badge {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .team-board .page-heading {
+    gap: 15px;
+  }
+  .team-board .page-heading h1 {
+    font-size: 30px;
+  }
+  .team-board .page-heading > .secondary {
+    font-size: 10px;
+    min-height: 35px;
+    padding: 8px 10px;
+  }
+  .team-demo-notice {
+    padding: 12px;
+  }
+  .team-demo-notice strong {
+    font-size: 10px;
+  }
+  .team-demo-notice span {
+    font-size: 10px;
+  }
+  .team-stats {
+    margin-bottom: 18px;
+  }
+  .team-stats > div {
+    padding: 15px;
+  }
+  .team-stats strong {
+    font-size: 26px;
+  }
+  .team-stats > div > span:last-child {
+    font-size: 9px;
+  }
+  .team-toolbar {
+    gap: 13px;
+    margin-bottom: 17px;
+  }
+  .team-view-toggle {
+    width: 100%;
+  }
+  .team-view-toggle button {
+    flex: 1;
+    justify-content: center;
+    font-size: 11px;
+  }
+  .team-person-filter {
+    font-size: 10px;
+    flex: 1;
+  }
+  .team-person-filter select {
+    font-size: 11px !important;
+    max-width: 160px;
+    width: 100%;
+    padding-right: 10px;
+  }
+  .team-mine {
+    font-size: 10px;
+  }
+  .team-search {
+    width: 100%;
+    min-width: 0;
+  }
+  .team-search input {
+    font-size: 12px !important;
+  }
+  .kanban-items {
+    grid-template-columns: 1fr;
+  }
+  .kanban-column {
+    padding: 15px;
+  }
+  .exchange-card-meta {
+    font-size: 9px;
+    padding: 14px 16px 0;
+  }
+  .exchange-leg {
+    padding: 16px;
+  }
+  .exchange-leg p {
+    font-size: 13px;
+  }
+  .exchange-person > strong {
+    font-size: 12px;
+  }
+  .exchange-person .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 9px;
+  }
+  .exchange-person small {
+    font-size: 9px;
+  }
+  .exchange-leg > span:last-child {
+    font-size: 10px;
+  }
+  .exchange-divider {
+    margin: 0 16px;
+    font-size: 8px;
+  }
+  .exchange-card-foot {
+    padding: 12px 16px;
+  }
+  .exchange-card-foot > span {
+    font-size: 9px;
+  }
+  .exchange-card-foot > button {
+    font-size: 11px;
+  }
+  .exchange-detail-heading {
+    flex-wrap: wrap;
+  }
+  .exchange-detail-leg {
+    padding: 16px;
+  }
+  .exchange-detail-leg h3 {
+    font-size: 14px;
+  }
+  .exchange-transition > .primary {
+    font-size: 11px;
+    white-space: normal;
+  }
+  .demo-counts > span {
+    font-size: 9px;
+    padding: 14px 5px;
+  }
+  .demo-counts strong {
+    font-size: 25px;
+  }
+  .demo-reset-section .secondary {
+    font-size: 11px;
+  }
+  .presenter-button {
+    font-size: 0;
+    gap: 0;
+    padding: 7px;
+  }
+  .presenter-button svg {
+    width: 16px;
+    height: 16px;
+  }
+  .people-grid {
+    grid-template-columns: 1fr;
+  }
+  .exchange-card-foot > span {
+    max-width: 75%;
+  }
+}

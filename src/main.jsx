@@ -26,6 +26,7 @@ import {
   Lightbulb,
   WandSparkles,
   Coffee,
+  Users,
 } from "lucide-react";
 import "@fontsource/dm-sans/400.css";
 import "@fontsource/dm-sans/500.css";
@@ -35,95 +36,16 @@ import "@fontsource/manrope/700.css";
 import "@fontsource/manrope/800.css";
 import "./styles.css";
 import Landing from "./Landing";
+import { demoTasks as seeds, sampleExchanges } from "./demo-data";
+import TeamBoard, { ExchangeDetails } from "./TeamBoard";
+import {
+  exchangeFromDraft,
+  changeExchange,
+  resetDemoDecisions,
+  restoreSampleExchanges,
+} from "./exchanges";
+import "./team.css";
 import "./redesign.css";
-const seeds = [
-  {
-    id: "s1",
-    title: "Refresh our quarterly presentation",
-    category: "Design",
-    effort: "45–60 min",
-    description:
-      "Help turn six content-heavy slides into a clear quarterly update. The draft and brand kit are ready.",
-    deliverable:
-      "A refreshed 6-slide presentation using our existing brand kit.",
-    done: "Consistent typography, clear charts, and a final editable slide deck.",
-    constraints:
-      "Keep the existing numbers and messaging. Brand assets provided after approval.",
-    owner: "Olivia Chen",
-    initials: "OC",
-    role: "Product marketing",
-    color: "rose",
-    offer: "I can untangle your spreadsheet",
-    skills: ["Presentation design", "Visual storytelling"],
-    deadline: "This week",
-    project: "Q3 team update",
-    tagline: "A fresh pair of eyes, a much better deck.",
-    art: "slides",
-  },
-  {
-    id: "s2",
-    title: "Summarize our customer survey",
-    category: "Data",
-    effort: "30–45 min",
-    description:
-      "We have 80 anonymized survey responses and a few questions. Help us spot the themes that actually matter.",
-    deliverable: "Three clear insights and a simple summary chart.",
-    done: "Every insight links back to a response or a count.",
-    constraints: "Use the anonymized sample only. No customer identities.",
-    owner: "Theo Martin",
-    initials: "TM",
-    role: "Customer experience",
-    color: "sage",
-    offer: "I can polish your writing",
-    skills: ["Spreadsheets", "Pattern finding"],
-    deadline: "Next week",
-    project: "Customer pulse",
-    tagline: "Good with numbers? Meet a very grateful human.",
-    art: "data",
-  },
-  {
-    id: "s3",
-    title: "Edit the product launch email",
-    category: "Writing",
-    effort: "20–30 min",
-    description:
-      "Review a short launch email for clarity and tone. The product details have already been checked.",
-    deliverable: "An edited email under 250 words, plus two subject lines.",
-    done: "The product owner confirms accuracy and approves the final copy.",
-    constraints: "Keep all product claims unchanged. No new promises.",
-    owner: "Amara Patel",
-    initials: "AP",
-    role: "Product design",
-    color: "gold",
-    offer: "I can review your landing page",
-    skills: ["Copywriting", "Editing"],
-    deadline: "This week",
-    project: "Autumn launch",
-    tagline: "A few better words can make a big difference.",
-    art: "writing",
-  },
-  {
-    id: "s4",
-    title: "Review our onboarding prototype",
-    category: "Review",
-    effort: "20–30 min",
-    description:
-      "Walk through a five-screen prototype and tell us where things stop making sense.",
-    deliverable: "Five observations, with screenshots where helpful.",
-    done: "Each observation explains the friction and a possible improvement.",
-    constraints: "Use the demo prototype; no production access needed.",
-    owner: "Leo Brooks",
-    initials: "LB",
-    role: "Engineering",
-    color: "blue",
-    offer: "I can help debug a small issue",
-    skills: ["User experience", "Attention to detail"],
-    deadline: "Flexible",
-    project: "A better first day",
-    tagline: "Your outside perspective is the superpower.",
-    art: "review",
-  },
-];
 const blankBrief = {
   title: "",
   goal: "",
@@ -213,9 +135,12 @@ function Modal({ title, onClose, children }) {
 function App() {
   const [page, setPage] = useState(
       () =>
-        ({ "/discover": "discover", "/board": "board", "/notes": "notes" })[
-          window.location.pathname
-        ] || "home",
+        ({
+          "/discover": "discover",
+          "/board": "board",
+          "/notes": "notes",
+          "/team": "team",
+        })[window.location.pathname] || "home",
     ),
     [mobile, setMobile] = useState(false),
     [filter, setFilter] = useState("All tasks"),
@@ -223,7 +148,8 @@ function App() {
   const [decisions, setDecisions] = useSaved("taskswap-decisions", {}),
     [custom, setCustom] = useSaved("taskswap-tasks", []),
     [trades, setTrades] = useSaved("taskswap-trades", []),
-    [brief, setBrief] = useSaved("taskswap-brief", blankBrief);
+    [brief, setBrief] = useSaved("taskswap-brief", blankBrief),
+    [exchanges, setExchanges] = useSaved("taskswap-exchanges", sampleExchanges);
   const [history, setHistory] = useState([]),
     [modal, setModal] = useState(null),
     [toast, setToast] = useState(""),
@@ -243,9 +169,12 @@ function App() {
   useEffect(() => {
     const pop = () => {
       setPage(
-        { "/discover": "discover", "/board": "board", "/notes": "notes" }[
-          location.pathname
-        ] || "home",
+        {
+          "/discover": "discover",
+          "/board": "board",
+          "/notes": "notes",
+          "/team": "team",
+        }[location.pathname] || "home",
       );
       setModal(null);
     };
@@ -408,10 +337,42 @@ function App() {
     notify("Task posted to your local workspace.");
     return item;
   }
+  function addDraftToTeam(draft) {
+    const existing = exchanges.find((e) => e.draftId === draft.id);
+    if (existing) {
+      navigate("team");
+      setModal({ type: "exchange", id: existing.id });
+      return;
+    }
+    const source =
+      all.find((t) => t.id === draft.taskId) ||
+      all.find((t) => t.title === draft.title);
+    const entry = exchangeFromDraft(
+      draft,
+      source,
+      `SW-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
+    );
+    setExchanges((es) => [entry, ...es]);
+    navigate("team");
+    setModal({ type: "exchange", id: entry.id });
+    notify("Added to the local team demo. Nothing was sent.");
+  }
+  function updateExchange(id, action) {
+    const current = exchanges.find((e) => e.id === id);
+    const updated = changeExchange(current, action);
+    setExchanges((es) => es.map((e) => (e.id === id ? updated : e)));
+    if (action.type === "start" || action.type === "complete")
+      notify(
+        action.type === "start"
+          ? "Demo exchange is now in progress."
+          : "Both deliveries confirmed. Demo exchange completed.",
+      );
+  }
   if (page === "home") return <Landing onEnter={() => navigate("discover")} />;
   const nav = [
     ["discover", LayoutGrid, "Discover"],
     ["board", Layers, "My board"],
+    ["team", Users, "Team board"],
     ["notes", FileText, "Project notes"],
   ];
   return (
@@ -499,10 +460,19 @@ function App() {
                 ? "Discover"
                 : page === "board"
                   ? "My board"
-                  : "Project notes"}
+                  : page === "team"
+                    ? "Team board"
+                    : "Project notes"}
             </strong>
           </div>
           <div className="top-actions">
+            <button
+              className="presenter-button"
+              onClick={() => setModal({ type: "demo" })}
+            >
+              <RotateCcw size={14} />
+              Demo controls
+            </button>
             <span className="demo-badge">
               <span /> Demo workspace
             </span>
@@ -821,6 +791,13 @@ function App() {
               </div>
             </>
           )}
+          {page === "team" && (
+            <TeamBoard
+              exchanges={exchanges}
+              onOpen={(id) => setModal({ type: "exchange", id })}
+              onDemoControls={() => setModal({ type: "demo" })}
+            />
+          )}
           {page === "board" && (
             <>
               <div className="page-heading">
@@ -879,6 +856,15 @@ function App() {
                       <h2>{t.title}</h2>
                       <p>You offer: {t.offer}</p>
                       <p>Proposed timing: {t.timing}</p>
+                      <button
+                        className="secondary"
+                        onClick={() => addDraftToTeam(t)}
+                      >
+                        {exchanges.some((e) => e.draftId === t.id)
+                          ? "View on team board"
+                          : "Add to team demo"}
+                        <ArrowRight size={15} />
+                      </button>
                       <div className="acceptance">
                         <strong>Definition of done</strong>
                         <p>{t.done}</p>
@@ -1173,20 +1159,114 @@ function App() {
       {modal && (
         <Modal
           title={
-            modal.type === "post"
-              ? "Post a task"
-              : modal.type === "details"
-                ? "The task brief"
-                : modal.type === "trade"
-                  ? "Propose a trade"
-                  : modal.type === "how"
-                    ? "A little give. A little get."
-                    : modal.type === "updates"
-                      ? "You’re in good company"
-                      : "Your TaskSwap workspace"
+            modal.type === "exchange"
+              ? "The exchange"
+              : modal.type === "demo"
+                ? "Ready for your walkthrough"
+                : modal.type === "post"
+                  ? "Post a task"
+                  : modal.type === "details"
+                    ? "The task brief"
+                    : modal.type === "trade"
+                      ? "Propose a trade"
+                      : modal.type === "how"
+                        ? "A little give. A little get."
+                        : modal.type === "updates"
+                          ? "You’re in good company"
+                          : "Your TaskSwap workspace"
           }
           onClose={() => setModal(null)}
         >
+          {modal.type === "exchange" && (
+            <ExchangeDetails
+              key={modal.id}
+              exchange={exchanges.find((e) => e.id === modal.id)}
+              onChange={updateExchange}
+            />
+          )}
+          {modal.type === "demo" && (
+            <div className="demo-control-panel">
+              <p>
+                A complete walkthrough, ready when you are. All team activity is
+                a local simulation.
+              </p>
+              <div className="demo-counts">
+                <span>
+                  <strong>{seeds.length}</strong>sample tasks
+                </span>
+                <span>
+                  <strong>{sampleExchanges.length}</strong>sample exchanges
+                </span>
+                <span>
+                  <strong>{new Set(seeds.map((t) => t.owner)).size}</strong>
+                  sample teammates
+                </span>
+              </div>
+              <ol>
+                <li>
+                  <strong>Discover:</strong> pass a task, save another, then
+                  undo.
+                </li>
+                <li>
+                  <strong>My board:</strong> open a saved task, build a trade,
+                  and add the draft to the team demo.
+                </li>
+                <li>
+                  <strong>Team board:</strong> start a proposed exchange,
+                  confirm both deliveries, and complete it. Switch to People to
+                  see who is helping whom.
+                </li>
+              </ol>
+              <div className="demo-reset-section">
+                <h3>Replay the sample task deck</h3>
+                <p>
+                  Bring back all {seeds.length} sample tasks, including saved
+                  samples. Your posted tasks, decisions on your own tasks,
+                  notes, drafts, and exchanges stay unchanged.
+                </p>
+                <button
+                  className="secondary"
+                  onClick={() => {
+                    setDecisions((d) => resetDemoDecisions(d, seeds));
+                    setHistory([]);
+                    setFilter("All tasks");
+                    setSearch("");
+                    setOffset(0);
+                    setModal(null);
+                    navigate("discover");
+                    notify("Sample deck reset. Your own work is unchanged.");
+                  }}
+                >
+                  <RotateCcw size={15} />
+                  Replay sample deck
+                </button>
+              </div>
+              <div className="demo-reset-section">
+                <h3>Restore the example team board</h3>
+                <p>
+                  Reset only the six sample exchanges and their activity.
+                  Exchanges you added from drafts and all your own work stay
+                  unchanged.
+                </p>
+                <button
+                  className="secondary"
+                  onClick={() => {
+                    setExchanges((es) =>
+                      restoreSampleExchanges(es, sampleExchanges),
+                    );
+                    setModal(null);
+                    navigate("team");
+                    notify(
+                      "Six sample exchanges restored. Your own exchanges are unchanged.",
+                    );
+                  }}
+                >
+                  <RotateCcw size={15} />
+                  Restore sample exchanges
+                </button>
+              </div>
+            </div>
+          )}
           {modal.type === "post" && (
             <TaskForm
               prefill={
@@ -1249,6 +1329,9 @@ function App() {
                     ...trade,
                     id: crypto.randomUUID(),
                     title: modal.task.title,
+                    taskId: modal.task.id,
+                    owner: modal.task.owner,
+                    initials: modal.task.initials,
                     done: modal.task.done,
                   },
                   ...ts,
@@ -1322,7 +1405,7 @@ function App() {
                 <strong>What’s working</strong>
                 <p>
                   Swipe discovery, saved tasks, project briefs, task posting,
-                  and local trade drafts.
+                  local trade drafts, and a simulated team exchange board.
                 </p>
               </div>
               <div className="brief-detail">
