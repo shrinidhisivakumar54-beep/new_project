@@ -15,7 +15,9 @@ The server listens on port 3000 (override with `PORT`). For production, run `npm
 
 ## What works
 
-- Drag left/right, use arrow keys, or tap buttons to pass/save tasks. Undo reverses the last swipe in the current session.
+- The home page explains the exchange and includes an interactive sample. Click **Open workspace** to browse tasks.
+- On laptops, click **Pass / Interested**, press **← / →**, drag a card at least 60 pixels, or swipe horizontally on the card with a trackpad. Buttons and keyboard controls do not require dragging. One trackpad gesture makes at most one decision. Undo reverses the last decision in the current session.
+- **Review passed tasks** brings back skipped tasks without clearing saved ones. Direct pages `/discover`, `/board`, and `/notes` survive refresh and support browser back/forward navigation.
 - Search tasks, filter categories, inspect deliverables, constraints, and acceptance criteria.
 - Post a task; save tasks; create and remove trade drafts.
 - Write an autosaved project brief and review suggested tasks before posting them.
@@ -39,6 +41,6 @@ npm run build
 npm run test:e2e
 ```
 
-The browser suite uses `/usr/bin/chromium` in this environment and starts its own development server when necessary. Tests cover swipe/undo persistence, project-brief-to-post workflow, trade drafts, real pointer dragging, keyboard controls, API validation, mobile overflow, and modal dismissal.
+The browser suite uses `/usr/bin/chromium` when available and starts its own development server when necessary. On your Mac or another computer, run `npx playwright install chromium` once before the browser suite. You can override the browser path with `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. Tests cover swipe/undo persistence, project-brief-to-post workflow, trade drafts, real pointer dragging, keyboard controls after button focus, horizontal wheel/trackpad events, short-drag cancellation, filter resets, API validation, landing navigation, laptop button visibility, mobile overflow, and modal dismissal. Trackpad behavior is validated with Chromium wheel events; physical Mac trackpads and Safari have not been tested here.
 
 Each cloud task already has an isolated checkout. Use the existing repository; don't create a Git worktree unless explicitly requested.

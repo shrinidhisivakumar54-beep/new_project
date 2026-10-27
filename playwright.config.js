@@ -1,2 +1,21 @@
-import { defineConfig } from '@playwright/test';
-export default defineConfig({ testDir: './tests/browser', use: { baseURL: 'http://127.0.0.1:3000', launchOptions: { executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] } }, webServer: { command: 'npm run dev', url: 'http://127.0.0.1:3000/api/health', reuseExistingServer: !process.env.CI }, workers: 1 });
+import { defineConfig } from "@playwright/test";
+import { existsSync } from "node:fs";
+const executablePath =
+  process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ||
+  (existsSync("/usr/bin/chromium") ? "/usr/bin/chromium" : undefined);
+export default defineConfig({
+  testDir: "./tests/browser",
+  use: {
+    baseURL: "http://127.0.0.1:3000",
+    launchOptions: {
+      ...(executablePath ? { executablePath } : {}),
+      args: ["--no-sandbox"],
+    },
+  },
+  webServer: {
+    command: "npm run dev",
+    url: "http://127.0.0.1:3000/api/health",
+    reuseExistingServer: !process.env.CI,
+  },
+  workers: 1,
+});
